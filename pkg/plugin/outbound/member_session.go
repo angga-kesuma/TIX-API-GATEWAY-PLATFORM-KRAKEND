@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/tiket/TIX-API-GATEWAY-PLATFORM-KRAKEND/pkg/helper/httpclient"
-	"github.com/tiket/TIX-API-GATEWAY-PLATFORM-KRAKEND/pkg/plugin/config"
+	"github.com/tiket/angga-kesuma/pkg/helper/httpclient"
+	"github.com/tiket/angga-kesuma/pkg/plugin/config"
 )
 
 const (

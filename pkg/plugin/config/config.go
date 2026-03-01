@@ -5,8 +5,8 @@ import (
 	"os"
 
 	"github.com/bytedance/gopkg/util/logger"
-	"github.com/tiket/TIX-API-GATEWAY-PLATFORM-KRAKEND/pkg/helper/httpclient"
-	"github.com/tiket/TIX-API-GATEWAY-PLATFORM-KRAKEND/pkg/helper/yamlparser"
+	"github.com/tiket/angga-kesuma/pkg/helper/httpclient"
+	"github.com/tiket/angga-kesuma/pkg/helper/yamlparser"
 	"gopkg.in/yaml.v3"
 )
 

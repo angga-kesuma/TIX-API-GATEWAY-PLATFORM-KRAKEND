@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/tiket/TIX-API-GATEWAY-PLATFORM-KRAKEND/pkg/plugin/config"
-	"github.com/tiket/TIX-API-GATEWAY-PLATFORM-KRAKEND/pkg/plugin/outbound"
+	"github.com/tiket/angga-kesuma/pkg/plugin/config"
+	"github.com/tiket/angga-kesuma/pkg/plugin/outbound"
 )
 
 var MemberAuthName string = "member_auth"

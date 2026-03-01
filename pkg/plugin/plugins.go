@@ -9,9 +9,9 @@ import (
 	"net/url"
 
 	"github.com/bytedance/gopkg/util/logger"
-	"github.com/tiket/TIX-API-GATEWAY-PLATFORM-KRAKEND/pkg/helper/httpcaller"
-	"github.com/tiket/TIX-API-GATEWAY-PLATFORM-KRAKEND/pkg/plugin/config"
-	"github.com/tiket/TIX-API-GATEWAY-PLATFORM-KRAKEND/pkg/plugin/middleware"
+	"github.com/tiket/angga-kesuma/pkg/helper/httpcaller"
+	"github.com/tiket/angga-kesuma/pkg/plugin/config"
+	"github.com/tiket/angga-kesuma/pkg/plugin/middleware"
 )
 
 /**
