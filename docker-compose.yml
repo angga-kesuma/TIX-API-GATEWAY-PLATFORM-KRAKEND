@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  krakend-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./example/config:/etc/krakend
+    environment:
+      - REDIS_HOST=redis:6379
+      - REDIS_PASSWORD=
+    image: krakend-gateway
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--requirepass", ""]
+#    environment:
+#      - REDIS_PASSWORD= # Set password if needed

@@ -1,0 +1,76 @@
+{
+    "configs": [
+        {
+            "endpoint": "gateway/tix-events-v2-inventory/partners/v2/products/count",
+            "timeout": "10s",
+            "methods": [
+                "GET"
+            ],
+            "backend": [
+                {
+                    "url_pattern": "/tix-events-v2-inventory/partners/v2/products/count",
+                    "host": [
+                        "https://events-v2-inventory-svc.test-to-do-cluster.tiket.com"
+                    ],
+                    "extra_config": {
+                        "plugin/http-client": {
+                            "name": "middleware",
+                            "middleware": {
+                                "names": [
+                                    "member-auth",
+                                    "redis-rate-limit",
+                                    "error-handler"
+                                ],
+                                "redis-rate-limit": {
+                                    "limiters": [
+                                        {
+                                            "maxBurst": 1,
+                                            "maxRatePerMin": 10,
+                                            "varyBy": {
+                                                "method": true
+                                            }
+                                        },
+                                        {
+                                            "maxBurst": 1,
+                                            "maxRatePerMin": 10,
+                                            "varyBy": {
+                                                "method": true,
+                                                "headers": [
+                                                    "x-product-id"
+                                                ],
+                                                "params": [
+                                                    "test"
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "maxBurst": 1,
+                                            "maxRatePerMin": 10,
+                                            "varyBy": {
+                                                "user": true
+                                            },
+                                            "override": {
+                                                "TTD_GATEWAY:ttd-gateway/tix-events-v2-inventory/partners/v2/products/count:sitti.eldrin@tiket.com": {
+                                                    "maxBurst": 1,
+                                                    "maxRatePerMin": 10
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                "member-auth": {
+                                    "authServer": "https://member-session-svc.test-platform-cluster.tiket.com/tix-member-session/v1/session/validate",
+                                    "timeout": "3s",
+                                    "cookieType": "ADMIN",
+                                    "privilegeIds": [
+                                        "5035"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

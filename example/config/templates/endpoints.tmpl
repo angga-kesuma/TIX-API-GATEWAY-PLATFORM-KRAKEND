@@ -1,0 +1,32 @@
+{{ define "endpoints" }}
+{{ $all := . }}{{ $first := true }}
+{{ range $cfg := $all.configs }}
+  {{ range $m := $cfg.methods }}
+    {{ if not $first }},{{ end }}{{ $first = false }}
+
+    {{- range $i, $b := $cfg.backend -}}
+      {{- $x  := index $b "extra_config" -}}
+      {{- $h  := and $x (index $x "plugin/http-client") -}}
+      {{- $mw := and $h (index $h "middleware") -}}
+      {{- $rrl := and $mw (index $mw "redis-rate-limit") -}}
+      {{- if $rrl }}
+        {{- $patched := merge $rrl (dict "endpoint" $cfg.endpoint) -}}
+        {{- $noop := set $mw "redis-rate-limit" $patched -}}
+      {{- end -}}
+
+      {{- $b = merge $b (dict "encoding" "json") -}}
+
+    {{- end -}}
+
+    {
+      "endpoint":"{{ $cfg.endpoint }}",
+      "timeout":"{{ $cfg.timeout }}",
+      "method":"{{ $m }}",
+      "output_encoding":"no-op",
+      "input_headers":["*"],
+      "input_query_strings":["*"],
+      "backend":[{{- range $i, $b := $cfg.backend -}}{{ if $i}},{{ end }}{{ marshal $b }}{{- end }}]
+    }
+  {{ end }}
+{{ end }}
+{{ end }}

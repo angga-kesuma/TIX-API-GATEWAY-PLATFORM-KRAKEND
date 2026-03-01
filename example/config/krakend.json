@@ -1,0 +1,58 @@
+{
+    "$schema": "https://www.krakend.io/schema/v2.10/krakend.json",
+    "version": 3,
+    "timeout": "30s",
+    "name": "API-GATEWAY-MEMBER",
+    "plugin": {
+        "pattern": ".so",
+        "folder": "/opt/krakend/plugins/"
+    },
+    "extra_config": {
+        "plugin/http-server": {
+            "name": ["global-config"],
+            "global-config": {
+                "member-session-host": "/hijack-me"
+            }
+        },
+        "security/cors": {
+            "allow_origins": [
+                "*.tiket.com"
+            ],
+            "allow_methods": [
+                "GET",
+                "HEAD",
+                "POST",
+                "PUT",
+                "PATCH",
+                "DELETE",
+                "OPTIONS"
+            ]
+        },
+        "router": {
+            "disable_access_log": true,
+            "health_path": "/application/health",
+            "forwarded_by_client_ip": true,
+            "remote_ip_headers": [
+                "X-Forwarded-For",
+                "X-Real-IP"
+            ],
+            "trusted_proxies": [
+                "10.88.0.0/18"
+            ]
+        },
+        "telemetry/logging": {
+            "level": "INFO",
+            "prefix": "[TTD-GATEWAY]",
+            "syslog": false,
+            "stdout": true
+        },
+
+        "telemetry/metrics": {
+            "collection_time": "10s",
+            "listen_address": ":8090"
+        }
+    },
+    "endpoints": [
+        {{ template "endpoints" .ttd_test }}
+    ]
+}

@@ -1,0 +1,4 @@
+service_name: api-gateway-member
+member_session:
+  base_url: https://member-session
+  secret : 1234

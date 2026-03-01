@@ -1,0 +1,53 @@
+podTemplate(
+  containers: [
+    containerTemplate(name: 'go', image: 'golang:1.24.5', ttyEnabled: true, command: 'cat', args: '', resourceRequestCpu: '1000m', resourceRequestMemory: '500Mi'),
+    containerTemplate(name: 'linter', image: 'golangci/golangci-lint:latest', ttyEnabled: true, command: 'cat', args: '', resourceRequestCpu: '1000m', resourceRequestMemory: '500Mi'),
+    containerTemplate(name: 'jnlp-11', image: 'jenkins/inbound-agent:latest', ttyEnabled: true, command: 'cat', args: '', resourceRequestCpu: '1', resourceRequestMemory: '1Gi')
+  ],
+  serviceAccount: 'jenkins-service-account'
+)
+{
+  node(POD_LABEL) {
+    checkout scm
+    stage('Setup') {
+      container('go') {
+        stage('Dep Install') {
+          withCredentials([string(credentialsId: 'tiket-git-password', variable: 'GITHUB_TOKEN')]) {
+            sh 'git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"'
+          }
+          // sh 'ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime'
+          // sh 'go install github.com/golang/mock/mockgen@v1.6.0'
+          // sh 'go generate ./internal/mocks/generate_mock.go'
+        }
+      }
+    }
+    stage('Test & Lint') {
+      parallel (
+        'Unit Test': {
+          container('go') {
+            sh "make test-plugin"
+          }
+        }
+      )
+    }
+    container('jnlp-11'){
+      stage("Sonar Scanner") {
+        sh "java -version"
+      	def scannerHome = tool 'sonar-scanner';
+        withSonarQubeEnv('sonar-server-tiket-com') {
+          sh "${scannerHome}/bin/sonar-scanner -Dproject.settings=sonar.properties"
+        }
+      }
+      stage("Quality Gate") {
+        timeout(time: 1, unit: 'MINUTES') { // Just in case something goes wrong, pipeline will be killed after a timeout
+        sleep(30)
+        def qg = waitForQualityGate()
+          // accept 'WARN' temporary
+          if (qg.status != 'OK') {
+               error "Pipeline aborted due to quality gate failure: ${qg.status}"
+          }
+        }
+      }
+    }
+  }
+}

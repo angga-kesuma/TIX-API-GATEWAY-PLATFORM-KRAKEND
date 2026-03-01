@@ -1,0 +1,27 @@
+{
+    "configs": [
+        {
+            "endpoint": "/test/{id}",
+            "timeout": "10s",
+            "methods": [
+                "GET"
+            ],
+            "backend": [
+                {
+                    "host": [
+                        "http://localhost:8080"
+                    ],
+                    "url_pattern": "/__debug/{id}",
+                    "extra_config": {
+                        "plugin/http-client": {
+                            "name": "krakend-client-example",
+                            "krakend-client-example": {
+                                "path": "/__debug/hijack-me"
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
