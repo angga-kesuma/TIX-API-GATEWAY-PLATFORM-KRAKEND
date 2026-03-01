@@ -3,7 +3,7 @@ package middleware
 import (
 	"net/http"
 
-	"github.com/tiket/angga-kesuma/pkg/plugin/config"
+	"github.com/angga-kesuma/TIX-API-GATEWAY-PLATFORM-KRAKEND/pkg/plugin/config"
 )
 
 type Middleware interface {

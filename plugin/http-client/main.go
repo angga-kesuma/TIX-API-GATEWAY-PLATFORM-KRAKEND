@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/tiket/angga-kesuma/pkg/plugin"
+	"github.com/angga-kesuma/TIX-API-GATEWAY-PLATFORM-KRAKEND/pkg/plugin"
 )
 
 var pluginName = "middleware"

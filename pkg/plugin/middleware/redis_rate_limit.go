@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/redis/go-redis/v9"
-	"github.com/tiket/angga-kesuma/pkg/plugin/config"
+	"github.com/angga-kesuma/TIX-API-GATEWAY-PLATFORM-KRAKEND/pkg/plugin/config"
 )
 
 var RedisRateLimitName = "redis_rate_limit"

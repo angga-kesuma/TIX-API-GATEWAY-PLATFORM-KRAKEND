@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/tiket/angga-kesuma/pkg/helper/httpclient"
+	"github.com/angga-kesuma/TIX-API-GATEWAY-PLATFORM-KRAKEND/pkg/helper/httpclient"
 )
 
 /*

@@ -7,7 +7,7 @@ RUN apk --no-cache --virtual .build-deps add make gcc musl-dev binutils-gold git
 
 RUN git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
 
-RUN go env -w GOPRIVATE=github.com/tiket/*
+RUN go env -w GOPRIVATE=github.com/*,github.com/*
 
 WORKDIR /plugin-build
 WORKDIR /plugin

@@ -1,5 +1,4 @@
-module github.com/angga-kesuma/angga-kesuma
-
+module github.com/angga-kesuma/TIX-API-GATEWAY-PLATFORM-KRAKEND
 go 1.25.0
 
 require (
